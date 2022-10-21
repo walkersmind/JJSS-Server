@@ -18,4 +18,8 @@ export class UsersRepository {
   async create(user: UserRequestDto): Promise<User> {
     return await this.userModel.create(user);
   }
+
+  async findUserByEmail(email: string) {
+    return this.userModel.findOne({ email });
+  }
 }
