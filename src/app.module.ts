@@ -18,7 +18,7 @@ import mongoose from 'mongoose';
   providers: [AppService],
 })
 export class AppModule implements NestModule {
-  private readonly isDev: boolean = process.env.MOD === 'dev' ? true : false;
+  private readonly isDev: boolean = process.env.MODE === 'dev' ? true : false;
   configure(consumer: MiddlewareConsumer) {
     // 전체 엔드포인트에 대해서 로거 미들웨어 적용
     consumer.apply(LoggerMiddleware).forRoutes('*');
