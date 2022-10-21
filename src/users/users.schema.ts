@@ -2,11 +2,17 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { IsEmail, IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type UserDocument = User & Document;
 
 @Schema()
 export class User extends Document {
+  @ApiProperty({
+    example: 'test@naver.com',
+    description: 'email',
+    required: true,
+  })
   @Prop({
     required: true,
     unique: true,
@@ -15,9 +21,19 @@ export class User extends Document {
   @IsNotEmpty()
   email: string;
 
+  @ApiProperty({
+    example: 'test',
+    description: 'name',
+    required: true,
+  })
   @Prop()
   name: string;
 
+  @ApiProperty({
+    example: '123',
+    description: 'password',
+    required: true,
+  })
   @Prop()
   @IsNotEmpty()
   password: string;

@@ -2,6 +2,7 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+
 import { UserRequestDto } from './dto/users.request.dto';
 import { User, UserDocument } from './users.schema';
 
