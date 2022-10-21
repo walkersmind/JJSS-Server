@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+    <div><h2>카카오 로그인</h2></div>
+    <div>1. 카카오 로그인 코드 받기 (GET)</div>
+    <a
+      href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=9f7cabe5fceeb31eb40f58fc5d78c7e9&redirect_uri=http://localhost:3000/users/oauth/callback/kakao"
+      ><img src="https://developers.kakao.com/tool/resource/static/img/button/login/full/ko/kakao_login_medium_narrow.png"></a
+    >
+    <div>2. JWT 토큰 받기 (POST)</div>
+    <form action="https://kauth.kakao.com/oauth/token" method="post">
+      <div>
+        <label for="client_id">client_id </label>
+        <input name="client_id" value="9f7cabe5fceeb31eb40f58fc5d78c7e9" />
+      </div>
+      <div>
+        <label for="code">code</label>
+        <input name="code" />
+      </div>
+      <div>
+        <label for="redirect_uri">redirect_uri</label>
+        <input
+          name="redirect_uri"
+          value="http://localhost:3000/users/oauth/callback/kakao"
+        />
+      </div>
+      <div>
+        <label for="grant_type">grant_type</label>
+        <input name="grant_type" value="authorization_code" />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
