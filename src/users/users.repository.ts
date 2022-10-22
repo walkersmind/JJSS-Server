@@ -22,4 +22,10 @@ export class UsersRepository {
   async findUserByEmail(email: string) {
     return this.userModel.findOne({ email });
   }
+
+  async findUserByIdWidhoutPassword(userId: string): Promise<User | null> {
+    const user = await this.userModel.findById(userId).select('-password');
+
+    return user;
+  }
 }

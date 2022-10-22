@@ -1,3 +1,4 @@
+import { LoginRequestDto } from './dto/login.request.dto';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersRepository } from 'src/users/users.repository';
 
@@ -11,7 +12,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async jwtLogin(data) {
+  async jwtLogin(data: LoginRequestDto) {
     const { email, password } = data;
 
     const user = await this.userRepository.findUserByEmail(email);
