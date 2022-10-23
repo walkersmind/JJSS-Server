@@ -1,37 +1,33 @@
-import { RegisterUserDto } from './../dto/register-users.dto';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { User } from 'src/schemas/users.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { InjectModel } from '@nestjs/mongoose';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+
+import { UserRequestDto } from './dto/users.request.dto';
+import { User, UserDocument } from './users.schema';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(User.name) private readonly userModel: Model<User>,
-  ) {}
-
-  usersHello(): string {
-    return 'Hello Uers!';
-  }
-
-  async register(data: RegisterUserDto) {
-    const { username, email, password } = data;
-    const isUserExist = await this.userModel.exists({ email });
+  constructor(private readonly userRepository: UsersRepository) {}
+  private saltOrRounds = 10;
+  async signUp(body: UserRequestDto) {
+    const { email, name, password } = body;
+    const isUserExist = await this.userRepository.existByEamil(email);
 
     if (isUserExist) {
-      throw new UnauthorizedException('The User is already existed');
+      throw new UnauthorizedException(
+        '해당 이메일로 가입된 유저가 이미 존재합니다.',
+      );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await this.userModel.create({
+    const hash = await bcrypt.hash(password, this.saltOrRounds);
+    const user = await this.userRepository.create({
       email,
-      username,
-      password: hashedPassword,
+      name,
+      password: hash,
     });
 
-    console.log(data);
-    return user;
+    return user.readOnlyData;
   }
 }
