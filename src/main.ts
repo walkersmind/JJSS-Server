@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 import { AppModule } from './app.module';
-import * as basicAuth from 'express-basic-auth';
+import basicAuth from 'express-basic-auth';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

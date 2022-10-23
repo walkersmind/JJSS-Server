@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { IsEmail, IsNotEmpty } from 'class-validator';
@@ -6,7 +6,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export type UserDocument = User & Document;
 
-@Schema()
+const options: SchemaOptions = {
+  timestamps: true,
+};
+
+@Schema(options)
 export class User extends Document {
   @ApiProperty({
     example: 'test@naver.com',
