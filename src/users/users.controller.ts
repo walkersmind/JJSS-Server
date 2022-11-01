@@ -31,7 +31,7 @@ export class UsersController {
 
   @ApiOperation({ summary: '피드 가져오기' })
   @UseGuards(JwtAuthGuard)
-  @Get()
+  @Get('feed')
   getFeed(@CurrentUser() user: User) {
     console.log(user);
     return user.readOnlyData;
@@ -56,6 +56,16 @@ export class UsersController {
   @Post('login')
   logIn(@Body() data: LoginRequestDto) {
     return this.authService.jwtLogin(data);
+  }
+
+  @Get('')
+  kakaoLoginCode(@Res() res): any {
+    res.send(`
+    <div><a
+      href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=9f7cabe5fceeb31eb40f58fc5d78c7e9&redirect_uri=http://localhost:3000/users/oauth/callback/kakao"
+      ><img src="https://developers.kakao.com/tool/resource/static/img/button/login/full/ko/kakao_login_medium_narrow.png"></a
+    ></div>
+    `);
   }
 
   @ApiOperation({ summary: '카카오 로그인 코드 받기' })

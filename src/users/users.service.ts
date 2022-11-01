@@ -32,6 +32,8 @@ export class UsersService {
     // 카카오 로그인 시 비밀번호는 처리는 어떻게 할 지? => 다른 테이블로 관리
     // const hashedPassword = await bcrypt.hash(password, 10);
 
+    console.log('body', body);
+
     const hash = await bcrypt.hash(password, this.saltOrRounds);
     const user = await this.userRepository.create({
       email,
@@ -89,10 +91,12 @@ export class UsersService {
           // console.log(kakaoUserInfo);
 
           //회원가입에 필요한 정보 받기
+          const hash = await bcrypt.hash(kakaoTokenData['access_token'], 10);
           const registerUserInfo = {
             id: kakaoUserInfo['id'],
-            username: kakaoUserInfo['kakao_account']['profile']['nickname'],
+            name: kakaoUserInfo['kakao_account']['profile']['nickname'],
             email: kakaoUserInfo['kakao_account']['email'],
+            password: hash,
           };
 
           const userTokens = {
@@ -105,11 +109,12 @@ export class UsersService {
           //가입되어 있다면 로그인 코드 발급
           //가입되어 있지만 중복 처리를 못하는 오류
         } else {
+          // console.log('test');
           throw new UnauthorizedException();
         }
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 }
